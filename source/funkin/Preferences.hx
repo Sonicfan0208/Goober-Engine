@@ -78,6 +78,25 @@ class Preferences
   }
 
   /**
+   * If enabled, the player can press a key without losing any score or health.
+   * @default `false`
+   */
+  public static var ghostTapping(get, set):Bool;
+
+  static function get_ghostTapping():Bool
+  {
+    return Save?.instance?.options?.ghostTapping ?? false;
+  }
+
+  static function set_ghostTapping(value:Bool):Bool
+  {
+    var save:Save = Save.instance;
+    save.options.ghostTapping = value;
+    save.flush();
+    return value;
+  }
+
+  /**
    * If enabled, the strumline is at the bottom of the screen rather than the top.
    * @default `false`
    */

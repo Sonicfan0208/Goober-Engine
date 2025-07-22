@@ -119,6 +119,7 @@ class Save
           framerate: #if mobile refreshRate #else 60 #end,
           naughtyness: true,
           downscroll: false,
+          ghostTapping: false,
           flashingLights: true,
           zoomCamera: true,
           debugDisplay: false,
@@ -1530,6 +1531,12 @@ typedef SaveDataOptions =
    * @default `false`
    */
   var downscroll:Bool;
+
+  /**
+   * If enabled, the can press a key without losing any score.
+   * @default `false`
+   */
+  var ghostTapping:Bool;
 
   /**
    * If disabled, flashing lights in the main menu and other areas will be less intense.

@@ -56,6 +56,19 @@ class Constants
   }
   #end
 
+  public static function floorDecimal(value:Float, decimals:Int):Float
+	{
+		if(decimals < 1)
+			return Math.floor(value);
+
+		var tempMult:Float = 1;
+		for (i in 0...decimals)
+			tempMult *= 10;
+
+		var newValue:Float = Math.floor(value * tempMult);
+		return newValue / tempMult;
+	}
+
   /**
    * Whether or not the game is a debug build.
    */
@@ -549,7 +562,6 @@ class Constants
    * OTHER
    */
   // ==============================
-  #if FEATURE_GHOST_TAPPING
   // Hey there, Eric here.
   // This feature is currently still in development. You can test it out by creating a special debug build!
   // lime build windows -DFEATURE_GHOST_TAPPING
@@ -558,7 +570,6 @@ class Constants
    * Duration, in seconds, after the player's section ends before the player can spam without penalty.
    */
   public static final GHOST_TAP_DELAY:Float = 3 / 8;
-  #end
 
   /**
    * Otherwise known as "The FuckCunt Variable"

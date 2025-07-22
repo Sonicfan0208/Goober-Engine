@@ -483,6 +483,16 @@ class PlayState extends MusicBeatSubState
   var scoreText:FlxText;
 
   /**
+   * The FlxText which displays the current miss count.
+   */
+  var missesText:FlxText;
+
+  /**
+   * The FlxText which displays the current accuracy/clear count.
+   */
+  var accuracyText:FlxText;
+
+  /**
    * The bar which displays the player's health.
    * Dynamically updated based on the value of `healthLerp` (which is based on `health`).
    */
@@ -1829,16 +1839,35 @@ class PlayState extends MusicBeatSubState
     add(healthBar);
 
     // The score text below the health bar.
-    scoreText = new FlxText(healthBarBG.x + healthBarBG.width - 190, healthBarBG.y + 30, 0, '', 20);
+    scoreText = new FlxText(healthBarBG.x + 50, healthBarBG.y + 30, Std.int(healthBarBG.width - 100), '', 16);
     scoreText.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, RIGHT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
     scoreText.scrollFactor.set();
-    scoreText.zIndex = 802;
+    scoreText.borderSize = 1.25;
+    scoreText.cameras = [camHUD];
+    scoreText.zIndex = 851;
     add(scoreText);
+
+    // The misses text below the health bar.
+    missesText = new FlxText(healthBarBG.x + 50, healthBarBG.y + 30, Std.int(healthBarBG.width - 100), '', 16);
+    missesText.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, CENTER, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    missesText.scrollFactor.set();
+    missesText.borderSize = 1.25;
+    missesText.cameras = [camHUD];
+    missesText.zIndex = 852;
+    add(missesText);
+
+    // The accuracy text below the health bar.
+    accuracyText = new FlxText(healthBarBG.x + 50, healthBarBG.y + 30, Std.int(healthBarBG.width - 100), '', 16);
+    accuracyText.setFormat(Paths.font('vcr.ttf'), 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+    accuracyText.scrollFactor.set();
+    accuracyText.borderSize = 1.25;
+    accuracyText.cameras = [camHUD];
+    accuracyText.zIndex = 853;
+    add(accuracyText);
 
     // Move the health bar to the HUD camera.
     healthBar.cameras = [camHUD];
     healthBarBG.cameras = [camHUD];
-    scoreText.cameras = [camHUD];
   }
 
   /**
@@ -2036,8 +2065,8 @@ class PlayState extends MusicBeatSubState
 
     final cutoutSize = FullScreenScaleMode.gameCutoutSize.x / 2.5;
     // Position the player strumline on the right half of the screen
-    playerStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0); // Classic style
-    // playerStrumline.x = FlxG.width - playerStrumline.width - Constants.STRUMLINE_X_OFFSET; // Centered style
+    // playerStrumline.x = (FlxG.width / 2 + Constants.STRUMLINE_X_OFFSET) + (cutoutSize / 2.0); // Classic style
+    playerStrumline.x = FlxG.width - playerStrumline.width - Constants.STRUMLINE_X_OFFSET; // Centered style
 
     playerStrumline.y = Preferences.downscroll ? FlxG.height - playerStrumline.height - Constants.STRUMLINE_Y_OFFSET - noteStyle.getStrumlineOffsets()[1] : Constants.STRUMLINE_Y_OFFSET;
 
@@ -2435,12 +2464,17 @@ class PlayState extends MusicBeatSubState
     if (isBotPlayMode)
     {
       scoreText.text = 'Bot Play Enabled';
+      missesText.text = '';
+      accuracyText.text = '';
     }
     else
     {
       // TODO: Add an option for this maybe?
       var commaSeparated:Bool = true;
       scoreText.text = 'Score: ${FlxStringUtil.formatMoney(songScore, false, commaSeparated)}';
+      missesText.text = 'Misses: ${Highscore.tallies.missed}';
+      accuracyText.text = 'Accuracy: ${Constants.floorDecimal(Highscore.tallies.totalNotes == 0 ? 0.0 : (Highscore.tallies.sick + Highscore.tallies.good - Highscore.tallies.missed) / Highscore.tallies.totalNotes * 100, 2)}%';
+      missesText.y = accuracyText.y = scoreText.y;
     }
   }
 
@@ -2714,27 +2748,21 @@ class PlayState extends MusicBeatSubState
 
       var notesInDirection:Array<NoteSprite> = notesByDirection[input.noteDirection];
 
-      #if FEATURE_GHOST_TAPPING
-      if ((!playerStrumline.mayGhostTap()) && notesInDirection.length == 0)
-      #else
-      if (notesInDirection.length == 0)
-      #end
-      {
-        // Pressed a wrong key with no notes nearby.
-        // Perform a ghost miss (anti-spam).
-        ghostNoteMiss(input.noteDirection, notesInRange.length > 0);
+    if (!Preferences.ghostTapping && notesInDirection.length == 0)
+    {
+      // Pressed a wrong key with no notes nearby.
+      // Perform a ghost miss (anti-spam).
+      ghostNoteMiss(input.noteDirection, notesInRange.length > 0);
 
-        // Play the strumline animation.
-        playerStrumline.playPress(input.noteDirection);
-        trace('PENALTY Score: ${songScore}');
-      }
-    else if (notesInDirection.length == 0)
+      // Play the strumline animation.
+      playerStrumline.playPress(input.noteDirection);
+    }
+    else if (notesInDirection.length == 0 && Preferences.ghostTapping)
     {
       // Press a key with no penalty.
 
       // Play the strumline animation.
       playerStrumline.playPress(input.noteDirection);
-      trace('NO PENALTY Score: ${songScore}');
     }
     else
     {
