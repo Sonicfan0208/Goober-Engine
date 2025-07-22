@@ -119,7 +119,12 @@ class PreferencesMenu extends Page<OptionsState.OptionsMenuPageName>
     },
       Preferences.downscroll, #if mobile ControlsHandler.hasExternalInputDevice
       || Preferences.controlsScheme != FunkinHitboxControlSchemes.Arrows #end);
-    createPrefItemCheckbox('Ghost Tapping', "If checked, you won't get misses from pressing keys while there are no notes able to be hit.", function(value:Bool):Void {
+    createPrefItemCheckbox('Middlescroll', "If enabled, the strumline is at the center of the screen" #if mobile + "." #else + " (Similar to how it looks on mobile)." #end, function(value:Bool):Void {
+      Preferences.middlescroll = value;
+    }, 
+      Preferences.middlescroll, #if mobile ControlsHandler.hasExternalInputDevice
+      || Preferences.controlsScheme != FunkinHitboxControlSchemes.Arrows #end);
+    createPrefItemCheckbox('Ghost Tapping', "If enabled, you won't get misses from pressing keys while there are no notes able to be hit.", function(value:Bool):Void {
       Preferences.ghostTapping = value;
     }, Preferences.ghostTapping);
     createPrefItemPercentage('Strumline Background', 'Give the strumline a semi-transparent background', function(value:Int):Void {

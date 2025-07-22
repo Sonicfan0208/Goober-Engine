@@ -2080,12 +2080,10 @@ class PlayState extends MusicBeatSubState
     opponentStrumline.zIndex = 1000;
     opponentStrumline.cameras = [camHUD];
 
-    #if mobile
-    if (Preferences.controlsScheme == FunkinHitboxControlSchemes.Arrows && !ControlsHandler.usingExternalInputDevice)
+    if (#if mobile (Preferences.controlsScheme == FunkinHitboxControlSchemes.Arrows && !ControlsHandler.usingExternalInputDevice) || #end Preferences.middlescroll)
     {
       initNoteHitbox();
     }
-    #end
 
     playerStrumline.fadeInArrows();
     opponentStrumline.fadeInArrows();
@@ -2094,23 +2092,24 @@ class PlayState extends MusicBeatSubState
   /**
      * Configures the position of strumline for the default control scheme
      */
-  #if mobile
   function initNoteHitbox()
   {
     final amplification:Float = (FlxG.width / FlxG.height) / (FlxG.initialWidth / FlxG.initialHeight);
     final playerStrumlineScale:Float = ((FlxG.height / FlxG.width) * 1.95) * amplification;
     final playerNoteSpacing:Float = ((FlxG.height / FlxG.width) * 2.8) * amplification;
 
-    playerStrumline.strumlineScale.set(playerStrumlineScale, playerStrumlineScale);
+    opponentStrumline.enterMiniMode(0.4 * amplification);
+    playerStrumline.x = FlxG.width / 2 - playerStrumline.width / 2;
+    
+    #if mobile
     playerStrumline.setNoteSpacing(playerNoteSpacing);
     for (strum in playerStrumline)
     {
       strum.width *= 2;
     }
-    opponentStrumline.enterMiniMode(0.4 * amplification);
-
     playerStrumline.x = (FlxG.width - playerStrumline.width) / 2 + Constants.STRUMLINE_X_OFFSET;
     playerStrumline.y = (FlxG.height - playerStrumline.height) * 0.95 - Constants.STRUMLINE_Y_OFFSET;
+    playerStrumline.strumlineScale.set(playerStrumlineScale, playerStrumlineScale);
     if (currentChart.noteStyle != "pixel")
     {
       #if android playerStrumline.y += 10; #end
@@ -2120,9 +2119,10 @@ class PlayState extends MusicBeatSubState
       playerStrumline.y -= 10;
     }
     opponentStrumline.y = Constants.STRUMLINE_Y_OFFSET * 0.3;
+    #end
+
     opponentStrumline.x -= 30;
   }
-  #end
 
   /**
      * Configures the judgement and combo popups.

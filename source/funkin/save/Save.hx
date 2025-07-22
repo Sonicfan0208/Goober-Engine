@@ -120,6 +120,7 @@ class Save
           naughtyness: true,
           downscroll: false,
           ghostTapping: false,
+          middlescroll: false,
           flashingLights: true,
           zoomCamera: true,
           debugDisplay: false,
@@ -1531,6 +1532,12 @@ typedef SaveDataOptions =
    * @default `false`
    */
   var downscroll:Bool;
+
+  /**
+   * If enabled, the strumline is centered rather than one the sides.
+   * @default `false`
+   */
+  var middlescroll:Bool;
 
   /**
    * If enabled, the can press a key without losing any score.
