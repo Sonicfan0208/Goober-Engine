@@ -1447,6 +1447,8 @@ class PlayState extends MusicBeatSubState
             soundsPausedBySubState.add(sound);
           });
 
+          if (!vwooshTimer.finished) vwooshTimer.active = false;
+          
           vocals?.forEach(function(voice:FunkinSound) {
             soundsPausedBySubState.remove(voice);
           });
