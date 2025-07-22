@@ -40,7 +40,7 @@ class Project extends HXProject
   /**
    * The game's name. Used as the default window title.
    */
-  static final TITLE:String = "Friday Night Funkin'";
+  static final TITLE:String = "Friday Night Funkin' - Goober Engine";
 
   /**
    * A package name used for identifying the app on various app stores.
@@ -51,7 +51,7 @@ class Project extends HXProject
    * The name of the generated executable file.
    * For example, `"Funkin"` will create a file called `Funkin.exe`.
    */
-  static final EXECUTABLE_NAME:String = "Funkin";
+  static final EXECUTABLE_NAME:String = "Goober";
 
   /**
    * The relative location of the source code.
