@@ -31,6 +31,7 @@ import funkin.util.TouchUtil;
 import funkin.api.newgrounds.Referral;
 import funkin.ui.mainmenu.UpgradeSparkle;
 import flixel.group.FlxSpriteGroup.FlxTypedSpriteGroup;
+import flixel.text.FlxText;
 #if FEATURE_DISCORD_RPC
 import funkin.api.discord.DiscordClient;
 #end
@@ -133,17 +134,15 @@ class MainMenuState extends MusicBeatState
     magenta.x = bg.x;
     magenta.y = bg.y;
     magenta.visible = false;
-
-    // TODO: Why doesn't this line compile I'm going fucking feral
-
-    if (Preferences.flashingLights) add(magenta);
+    add(magenta);
 
     menuItems = new MenuTypedList<AtlasMenuItem>();
     add(menuItems);
     menuItems.onChange.add(onMenuItemChange);
     menuItems.onAcceptPress.add(function(_) {
       // canInteract = false;
-      FlxFlicker.flicker(magenta, 1.1, 0.15, false, true);
+      if (Preferences.flashingLights)
+				FlxFlicker.flicker(magenta, 1.1, 0.15, false);
     });
 
     menuItems.enabled = true; // can move on intro
@@ -320,20 +319,17 @@ class MainMenuState extends MusicBeatState
     }
     #end
 
+    var goobVer:FlxText = new FlxText(funkin.ui.FullScreenScaleMode.gameNotchSize.x, FlxG.height - 44, 0, "Goober Engine v0.0.1", 12);
+		goobVer.scrollFactor.set();
+		goobVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(goobVer);
+
+		var fnfVer:FlxText = new FlxText(funkin.ui.FullScreenScaleMode.gameNotchSize.x, FlxG.height - 24, 0, 'Friday Night Funkin\' ${Constants.VERSION}', 12);
+		fnfVer.scrollFactor.set();
+		fnfVer.setFormat("VCR OSD Mono", 16, FlxColor.WHITE, LEFT, FlxTextBorderStyle.OUTLINE, FlxColor.BLACK);
+		add(fnfVer);
+
     super.create();
-
-    // This has to come AFTER!
-    if (this.leftWatermarkText != null)
-    {
-      this.leftWatermarkText.text = Constants.VERSION;
-
-      #if FEATURE_NEWGROUNDS
-      if (NewgroundsClient.instance.isLoggedIn())
-      {
-        this.leftWatermarkText.text += ' | Newgrounds: Logged in as ${NewgroundsClient.instance.user?.name}';
-      }
-      #end
-    }
   }
 
   function playMenuMusic():Void

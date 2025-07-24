@@ -122,7 +122,6 @@ class CharSelectSubState extends MusicBeatSubState
         targetPosition += 1;
       }
 
-      trace('Placing player ${playerId} at position ${targetPosition}');
       availableChars.set(targetPosition, playerId);
     }
   }
@@ -814,7 +813,6 @@ class CharSelectSubState extends MusicBeatSubState
             mobileAccept = true;
           }
 
-          trace("Index: " + i + ", Row: " + cursorY + ", Column: " + cursorX);
           break;
         }
       }

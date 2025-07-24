@@ -38,6 +38,11 @@ import funkin.util.TouchUtil;
 import funkin.util.SwipeUtil;
 #end
 
+#if !web
+// PLEASE DON'T KILL ME MR_CHAOS, IF YOU WANT ME TO REMOVE THIS, PLEASE LET ME KNOW!!!
+import goober.objects.SpectrumWaveform;
+#end
+
 class TitleState extends MusicBeatState
 {
   /**
@@ -79,6 +84,10 @@ class TitleState extends MusicBeatState
   var titleText:FlxSprite;
   var maskShader = new LeftMaskShader();
 
+  #if !web
+  var spectrum:SpectrumWaveform;
+  #end
+
   function startIntro():Void
   {
     if (!initialized || FlxG.sound.music == null) playMenuMusic();
@@ -88,6 +97,15 @@ class TitleState extends MusicBeatState
     var bg:FunkinSprite = new FunkinSprite(-1).makeSolidColor(FlxG.width + 2, FlxG.height, FlxColor.BLACK);
     bg.screenCenter();
     add(bg);
+
+    #if !web
+    spectrum = new SpectrumWaveform(0, 720, FlxG.sound.music, FlxG.width, FlxG.height, TO_UP_FROM_DOWN, DEFAULT, FlxColor.WHITE);
+    spectrum.design = DEFAULT;
+    spectrum.barWidth = 12;
+    spectrum.barSpacing = 16;
+    spectrum.shader = swagShader.shader;
+    add(spectrum);
+    #end
 
     logoBl = new FlxSprite(-150 + (FullScreenScaleMode.gameCutoutSize.x / 2.5), -100);
     logoBl.frames = Paths.getSparrowAtlas('logoBumpin');

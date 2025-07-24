@@ -69,7 +69,6 @@ class CharSelectGF extends FlxAtlasSprite implements IBPMSyncedScriptedClass
     // danceEvery isn't necessary if that gets fixed.
     if (getCurrentAnimation() == "idle" && (event.beat % danceEvery == 0))
     {
-      trace('GF beat hit');
       playAnimation("idle", true, false, false);
     }
   };
@@ -169,7 +168,6 @@ class CharSelectGF extends FlxAtlasSprite implements IBPMSyncedScriptedClass
     currentGFPath = gfData?.assetPath != null ? Paths.animateAtlas(gfData?.assetPath) : null;
 
     // We don't need to update any anims if we didn't change GF
-    trace('currentGFPath(${currentGFPath})');
     if (currentGFPath == null)
     {
       this.visible = false;
@@ -186,9 +184,6 @@ class CharSelectGF extends FlxAtlasSprite implements IBPMSyncedScriptedClass
 
       animInInfo = FramesJSFLParser.parse(animInfoPath + '/In.txt');
       animOutInfo = FramesJSFLParser.parse(animInfoPath + '/Out.txt');
-
-      if (animInInfo == null) trace("[ERROR] Failed to load data for animInInfo, is the path provided correct?");
-      if (animOutInfo == null) trace("[ERROR] Failed to load data for animOutInfo, is the path provided correct?");
     }
 
     playAnimation("idle", true, false, false);
