@@ -350,7 +350,7 @@ class FunkinMemory
       if (sound != null)
       {
         Assets.cache.removeSound(key);
-        previousCachedTextures.remove(key);
+        // previousCachedTextures.remove(key);
       }
     }
     Assets.cache.clear("songs");

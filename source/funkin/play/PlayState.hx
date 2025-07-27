@@ -2541,7 +2541,7 @@ class PlayState extends MusicBeatSubState
         // NOTE: This is what handles the strumline and cleaning up the note itself!
         opponentStrumline.hitNote(note);
 
-        if (note.holdNoteSprite != null)
+        if (note.holdNoteSprite != null && Preferences.sustainSplashes)
         {
           opponentStrumline.playNoteHoldCover(note.holdNoteSprite);
         }
@@ -2596,7 +2596,7 @@ class PlayState extends MusicBeatSubState
         // NOTE: This is what handles the strumline and cleaning up the note itself!
         playerStrumline.hitNote(note);
 
-        if (note.holdNoteSprite != null)
+        if (note.holdNoteSprite != null && Preferences.sustainSplashes)
         {
           playerStrumline.playNoteHoldCover(note.holdNoteSprite);
         }
@@ -2849,8 +2849,8 @@ class PlayState extends MusicBeatSubState
     Highscore.tallies.totalNotesHit++;
     // Display the hit on the strums
     playerStrumline.hitNote(note, !event.isComboBreak);
-    if (event.doesNotesplash) playerStrumline.playNoteSplash(note.noteData.getDirection());
-    if (note.isHoldNote && note.holdNoteSprite != null) playerStrumline.playNoteHoldCover(note.holdNoteSprite);
+    if (event.doesNotesplash && Preferences.noteSplashes) playerStrumline.playNoteSplash(note.noteData.getDirection());
+    if (note.isHoldNote && note.holdNoteSprite != null && Preferences.sustainSplashes) playerStrumline.playNoteHoldCover(note.holdNoteSprite);
     vocals.playerVolume = 1;
 
     // Display the combo meter and add the calculation to the score.

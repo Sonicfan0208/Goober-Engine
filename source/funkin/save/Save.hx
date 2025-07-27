@@ -128,7 +128,10 @@ class Save
           hapticsIntensityMultiplier: 1,
           autoPause: true,
           vsyncMode: 'Off',
+          noteSplashes: true,
+          sustainSplashes: true,
           strumlineBackgroundOpacity: 0,
+          sustainTailOpacity: 100,
           autoFullscreen: false,
           globalOffset: 0,
           audioVisualOffset: 0,
@@ -1546,6 +1549,18 @@ typedef SaveDataOptions =
   var ghostTapping:Bool;
 
   /**
+   * If disabled, hides the splash effect when hitting a "Sick!" Note.
+   * @default `true`
+   */
+  var noteSplashes:Bool;
+
+  /**
+   * If disabled, hides the splash effect when holding down a long note.
+   * @default `true`
+   */
+  var sustainSplashes:Bool;
+
+  /**
    * If disabled, flashing lights in the main menu and other areas will be less intense.
    * @default `true`
    */
@@ -1593,6 +1608,8 @@ typedef SaveDataOptions =
    * @default `0`
    */
   var strumlineBackgroundOpacity:Int;
+
+  var sustainTailOpacity:Int;
 
   /**
    * If enabled, the game will automatically launch in fullscreen on startup.

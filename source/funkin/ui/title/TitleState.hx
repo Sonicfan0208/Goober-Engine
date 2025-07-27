@@ -294,7 +294,7 @@ class TitleState extends MusicBeatState
     if (FlxG.sound.music != null) Conductor.instance.update(FlxG.sound.music.time);
 
     // do controls.PAUSE | controls.ACCEPT instead?
-    var pressedEnter:Bool = FlxG.keys.justPressed.ENTER #if mobile || (TouchUtil.justReleased && !SwipeUtil.justSwipedAny) #end;
+    var pressedEnter:Bool = FlxG.keys.justPressed.ENTER || FlxG.mouse.justPressed #if mobile || (TouchUtil.justReleased && !SwipeUtil.justSwipedAny) #end;
 
     var gamepad:FlxGamepad = FlxG.gamepads.lastActive;
 

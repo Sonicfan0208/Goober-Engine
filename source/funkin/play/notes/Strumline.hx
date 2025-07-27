@@ -1149,7 +1149,7 @@ class Strumline extends FlxSpriteGroup
       holdNoteSprite.missedNote = false;
       holdNoteSprite.hitNote = false;
       holdNoteSprite.visible = true;
-      holdNoteSprite.alpha = 1.0;
+      holdNoteSprite.alpha = Preferences.sustainTailOpacity / 100.0;
 
       holdNoteSprite.x = this.x;
       holdNoteSprite.x += getXPos(DIRECTIONS[note.getDirection() % KEY_COUNT]);

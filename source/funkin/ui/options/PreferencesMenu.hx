@@ -130,6 +130,15 @@ class PreferencesMenu extends Page<OptionsState.OptionsMenuPageName>
     createPrefItemPercentage('Strumline Background', 'Give the strumline a semi-transparent background', function(value:Int):Void {
       Preferences.strumlineBackgroundOpacity = value;
     }, Preferences.strumlineBackgroundOpacity);
+    createPrefItemCheckbox('Note Splashes', 'If disabled, hides the splash effect when hitting a "Sick!" Note.', function(value:Bool):Void {
+      Preferences.noteSplashes = value;
+    }, Preferences.noteSplashes);
+    createPrefItemCheckbox('Sustain Splashes', 'If disabled, hides the splash effect when holding down a long note.', function(value:Bool):Void {
+      Preferences.sustainSplashes = value;
+    }, Preferences.sustainSplashes);
+    createPrefItemPercentage('Sustain Tail Opacity', 'What should the opacity of hold notes be?', function(value:Int):Void {
+      Preferences.sustainTailOpacity = value;
+    }, Preferences.sustainTailOpacity, 10, 100);
     #if FEATURE_HAPTICS
     createPrefItemEnum('Haptics', 'If enabled, game will use haptic feedback effects.', [
       "All" => HapticsMode.ALL,
@@ -189,7 +198,8 @@ class PreferencesMenu extends Page<OptionsState.OptionsMenuPageName>
       });
     #end
     #if !mobile
-    createPrefItemNumber('FPS', 'The maximum framerate that the game targets.', function(value:Float) {
+    createPrefItemNumber('FPS', 'The maximum framerate that the game targets.', function(value:Float) 
+    {
       Preferences.framerate = Std.int(value);
     }, null, Preferences.framerate, 30, 500, 5, 0);
     #end

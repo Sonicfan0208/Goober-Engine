@@ -213,7 +213,7 @@ class SustainTrail extends FlxSprite
       && !funkin.mobile.input.ControlsHandler.usingExternalInputDevice) #end;
 
     // alpha = 0.6;
-    alpha = 1.0;
+    alpha = Preferences.sustainTailOpacity / 100.0;
     updateColorTransform();
 
     updateClipping();

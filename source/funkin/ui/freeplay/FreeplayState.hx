@@ -1698,6 +1698,9 @@ class FreeplayState extends MusicBeatSubState
     final upP:Bool = controls.UI_UP;
     final downP:Bool = controls.UI_DOWN;
 
+    var shiftMult:Int = 1;
+		if(FlxG.keys.pressed.SHIFT) shiftMult = 3;
+
     if (upP || downP)
     {
       if (spamming)
@@ -1705,7 +1708,7 @@ class FreeplayState extends MusicBeatSubState
         if (spamTimer >= 0.07)
         {
           spamTimer = 0;
-          changeSelection(upP ? -1 : 1);
+          changeSelection(upP ? -shiftMult : shiftMult);
         }
       }
       else if (spamTimer >= 0.9)
@@ -1714,7 +1717,7 @@ class FreeplayState extends MusicBeatSubState
       }
       else if (spamTimer <= 0)
       {
-        changeSelection(upP ? -1 : 1);
+        changeSelection(upP ? -shiftMult : shiftMult);
       }
 
       spamTimer += elapsed;

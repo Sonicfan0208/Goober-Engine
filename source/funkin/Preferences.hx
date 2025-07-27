@@ -78,6 +78,44 @@ class Preferences
   }
 
   /**
+   * If disabled, hides the splash effect when hitting a "Sick!" Note.
+   * @default `true`
+   */
+  public static var noteSplashes(get, set):Bool;
+
+  static function get_noteSplashes():Bool
+  {
+    return Save?.instance?.options?.noteSplashes ?? true;
+  }
+
+  static function set_noteSplashes(value:Bool):Bool
+  {
+    var save:Save = Save.instance;
+    save.options.noteSplashes = value;
+    save.flush();
+    return value;
+  }
+
+  /**
+   * If disabled, hides the splash effect when holding down a long note.
+   * @default `true`
+   */
+  public static var sustainSplashes(get, set):Bool;
+
+  static function get_sustainSplashes():Bool
+  {
+    return Save?.instance?.options?.sustainSplashes ?? true;
+  }
+
+  static function set_sustainSplashes(value:Bool):Bool
+  {
+    var save:Save = Save.instance;
+    save.options.sustainSplashes = value;
+    save.flush();
+    return value;
+  }
+
+  /**
    * If enabled, the player can press a key without losing any score or health.
    * @default `false`
    */
@@ -429,6 +467,21 @@ class Preferences
   {
     var save:Save = Save.instance;
     save.options.strumlineBackgroundOpacity = value;
+    save.flush();
+    return value;
+  }
+
+  public static var sustainTailOpacity(get, set):Int;
+
+  static function get_sustainTailOpacity():Int
+  {
+    return (Save?.instance?.options?.sustainTailOpacity ?? 100);
+  }
+
+  static function set_sustainTailOpacity(value:Int):Int
+  {
+    var save:Save = Save.instance;
+    save.options.sustainTailOpacity = value;
     save.flush();
     return value;
   }
